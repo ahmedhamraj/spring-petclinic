@@ -9,6 +9,7 @@ pipeline {
     environment {
         EC2_USER = 'ubuntu'
         EC2_HOST = '172.31.28.40'
+        PEM_KEY = '/var/lib/jenkins/jenkins.pem'   // your EC2 PEM file
         JAR_NAME = 'spring-petclinic-3.5.0-SNAPSHOT.jar'
     }
 
@@ -35,12 +36,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-               
                 # Copy the new jar to EC2
-                scp -o StrictHostKeyChecking=no target/${JAR_NAME} ${EC2_USER}@${EC2_HOST}:/home/ubuntu/
+                scp -i ${PEM_KEY} -o StrictHostKeyChecking=no target/${JAR_NAME} ${EC2_USER}@${EC2_HOST}:/home/ubuntu/
 
                 # Start the jar in background and detach SSH
-                ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} \
+                ssh -i ${PEM_KEY} -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} \
                     'nohup java -jar /home/ubuntu/${JAR_NAME} >/dev/null 2>&1 & exit'
                 '''
             }
