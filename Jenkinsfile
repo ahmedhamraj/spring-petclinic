@@ -9,7 +9,7 @@ pipeline {
     environment {
         EC2_USER = 'ubuntu'
         EC2_HOST = '172.31.28.40'
-        PEM_KEY = '/var/lib/jenkins/jenkins.pem'   // your EC2 PEM file
+        PEM_KEY = '/var/lib/jenkins/.ssh/jenkins.pem'   // your EC2 PEM file
         JAR_NAME = 'spring-petclinic-3.5.0-SNAPSHOT.jar'
     }
 
