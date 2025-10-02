@@ -35,9 +35,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                # Stop previous running jar (if any)
-                ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'pkill -f ${JAR_NAME} || true'
-
+               
                 # Copy the new jar to EC2
                 scp -o StrictHostKeyChecking=no target/${JAR_NAME} ${EC2_USER}@${EC2_HOST}:/home/ubuntu/
 
